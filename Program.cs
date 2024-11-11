@@ -1,9 +1,15 @@
 ﻿using System;
+namespace Animate;
 
 class Program
 {
     static void Main(string[] args)
     {
+        var Player = new animate();
+        Player.maxHealth = 10;
+        Player.currantHealth = Player.maxHealth; 
+        Console.WriteLine("Choose your name");
+        Player.name = Console.ReadLine();
         Random rnd = new Random();
         string textInput;
         int x = 0;
