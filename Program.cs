@@ -5,11 +5,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        var Player = new animate();
-        Player.maxHealth = 10;
-        Player.currantHealth = Player.maxHealth; 
         Console.WriteLine("Choose your name");
-        Player.name = Console.ReadLine();
+        string playerName = Console.ReadLine();
+        var player = new animate(playerName, 10, 10);
+        //används i strid
+        string enemyName = "";
+        int enemyMaxHealth = 0;
+        int enemyCurrantHealth = 0;
+
         Random rnd = new Random();
         string textInput;
         int x = 0;
@@ -39,12 +42,43 @@ class Program
                 x++;
                 Console.WriteLine($"x: " + x + " y: " + y);
             }
-            if (rnd.Next(0, 11) == 1)
+            if (rnd.Next(0, 6) == 1)
             {
+                switch (rnd.Next(1, 3))
+                {
+                    case 1:
+                        enemyName = "skeleton";
+                        enemyMaxHealth = 10;
+                        enemyCurrantHealth = 10;
+                        break;
+                    case 2:
+                        enemyName = "imp";
+                        enemyMaxHealth = 10;
+                        enemyCurrantHealth = 10;
+                        break;
+                }
+                var enemy = new animate(enemyName, enemyMaxHealth, enemyCurrantHealth);
+                Console.WriteLine($"Battle with " + enemyName);
                 while (true)
                 {
-                    Console.WriteLine("Battle");
-                    break;
+                    textInput = Console.ReadLine();
+                    if (textInput == "Attack")
+                    {
+                        enemyCurrantHealth = enemyCurrantHealth - rnd.Next(1, 5);
+                    }
+                    int enmAttack = rnd.Next(1, 4)
+                    if (enmAttack = 1)
+                    {
+                        player.currantHealth = player.currantHealth - rnd.Next(1, 5);
+                    }
+                    if (enemyCurrantHealth <= 0)
+                    {
+                        break;
+                    }
+                    if (player.currantHealth <= 0)
+                    {
+                        break;
+                    }
                 }
             }
         }
