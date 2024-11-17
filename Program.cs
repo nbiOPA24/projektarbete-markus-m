@@ -5,9 +5,19 @@ class Program
 {
     static void Main(string[] args)
     {
+        //misc (isntansiering av spelaren och andra orelaterade saker)
+        int experiance = 0;
+        int level = 1;
         Console.WriteLine("Choose your name");
         string playerName = Console.ReadLine();
         var player = new animate(playerName, 10, 10, 5, 5);
+        Random rnd = new Random();
+        string textInput;
+        int x = 0;
+        int y = 0;
+        Console.WriteLine($"x: " + x + " y: " + y);
+        Console.WriteLine($"w = up, a = left, s = down, d = right");
+
         //används i strid
         string enemyName = "";
         int enemyMaxHealth = 0;
@@ -18,15 +28,15 @@ class Program
         int restEnergyGained = 0;
         bool playerTurnOver = false;
         int overflow = 0;
-
-        Random rnd = new Random();
-        string textInput;
-        int x = 0;
-        int y = 0;
-        Console.WriteLine($"x: " + x + " y: " + y);
-        Console.WriteLine($"w = up, a = left, s = down, d = right");
         while (true)
         {
+            if (experiance >= (level * 10))
+            {
+                experiance = experiance - level * 10;
+                level++;
+                player.maxHealth = level * 10;
+                player.maxEnergy = level * 5;
+            }
             if (player.currantHealth < 1)
             {
                 Console.ReadLine();
@@ -71,8 +81,11 @@ class Program
                 var enemy = new animate(enemyName, enemyMaxHealth, enemyCurrantHealth, 5, 5);
                 Console.WriteLine($"Battle with " + enemyName);
                 player.currantHealth = player.maxHealth;
+                player.currantEnergy = player.maxEnergy;
+                //Combat loop
                 while (true)
                 {
+                    //printar fiendens och dina liv och energi värden samt de olika saker du kan göra i konsolen
                     Console.WriteLine($"////Attackera////Blocka////Vila////");
                     Console.WriteLine($"Spelarens hp: " + player.currantHealth + " av max " + player.maxHealth);
                     Console.WriteLine($"Spelarens energi: " + player.currantEnergy + " av max " + player.maxEnergy);
@@ -85,7 +98,7 @@ class Program
                         damageBlockedPlayer = 0;
                         //randomizar ett värde och subtraherar fiendens health med det
                         damageDealt = rnd.Next(1, 5);
-                        enemy.currantHealth = enemy.currantHealth - (damageDealt - damageBlockedEnemy);
+                        enemy.currantHealth = enemy.currantHealth - (damageDealt + level - damageBlockedEnemy);
                         Console.WriteLine($"" + player.name + " attackerar och gör " + damageDealt + " skada");
                         playerTurnOver = true;
                         player.currantEnergy--;
@@ -164,6 +177,7 @@ class Program
                     //om fienden har noll eller mindre currantHealth dör den
                     if (enemy.currantHealth <= 0)
                     {
+                        experiance = experiance + enemy.maxHealth - enemy.currantHealth;
                         Console.WriteLine($"" + enemy.name + " är dräpt");
                         Console.WriteLine($"x: " + x + " y: " + y);
                         Console.WriteLine($"w = up, a = left, s = down, d = right");
