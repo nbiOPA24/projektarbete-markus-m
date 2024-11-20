@@ -1,16 +1,15 @@
 ﻿using System;
-namespace Animate;
 
 class Program
 {
     static void Main(string[] args)
     {
         //misc (isntansiering av spelaren och andra orelaterade saker)
-        int experiance = 0;
-        int level = 1;
+        //int experiance = 0;
+        //int level = 1;
         Console.WriteLine("Choose your name");
         string playerName = Console.ReadLine();
-        var player = new animate(playerName, 10, 10, 5, 5);
+        var player = new animate(playerName, 10, 10, 5, 5, 0, 1);
         Random rnd = new Random();
         string textInput;
         int x = 0;
@@ -20,6 +19,7 @@ class Program
 
         //används i strid
         string enemyName = "";
+        int enemyLevel = 0;
         int enemyMaxHealth = 0;
         int enemyCurrantHealth = 0;
         int damageBlockedEnemy = 0;
@@ -30,12 +30,12 @@ class Program
         int overflow = 0;
         while (true)
         {
-            if (experiance >= (level * 10))
+            if (player.experiance >= (player.level * 10))
             {
-                experiance = experiance - level * 10;
-                level++;
-                player.maxHealth = level * 10;
-                player.maxEnergy = level * 5;
+                player.experiance = player.experiance - player.level * 10;
+                player.level++;
+                player.maxHealth = player.level * 10;
+                player.maxEnergy = player.level * 5;
             }
             if (player.currantHealth < 1)
             {
@@ -78,10 +78,16 @@ class Program
                         enemyCurrantHealth = 10;
                         break;
                 }
-                var enemy = new animate(enemyName, enemyMaxHealth, enemyCurrantHealth, 5, 5);
-                Console.WriteLine($"Battle with " + enemyName);
+                enemyLevel = rnd.Next(1, 3);
+                var enemy = new animate(enemyName, enemyMaxHealth, enemyCurrantHealth, 5, 5, 0, enemyLevel);
+                Console.WriteLine($"Strid med " + enemyName + " level: " + enemyLevel);
                 player.currantHealth = player.maxHealth;
                 player.currantEnergy = player.maxEnergy;
+                enemy.maxHealth = enemy.level * 10;
+                enemy.maxEnergy = enemy.level * 5;
+                enemy.currantHealth = enemy.maxHealth;
+                enemy.currantEnergy = enemy.maxEnergy;
+                
                 //Combat loop
                 while (true)
                 {
@@ -98,7 +104,7 @@ class Program
                         damageBlockedPlayer = 0;
                         //randomizar ett värde och subtraherar fiendens health med det
                         damageDealt = rnd.Next(1, 5);
-                        enemy.currantHealth = enemy.currantHealth - (damageDealt + level - damageBlockedEnemy);
+                        enemy.currantHealth = enemy.currantHealth - (damageDealt + player.level - damageBlockedEnemy);
                         Console.WriteLine($"" + player.name + " attackerar och gör " + damageDealt + " skada");
                         playerTurnOver = true;
                         player.currantEnergy--;
@@ -134,7 +140,7 @@ class Program
                         damageBlockedEnemy = 0;
                         //randomizar ett värde och subtraherar spelarens health med det
                         damageDealt = rnd.Next(1, 5);
-                        player.currantHealth = player.currantHealth - (damageDealt - damageBlockedPlayer);
+                        player.currantHealth = player.currantHealth - (damageDealt + enemy.level - damageBlockedPlayer);
                         Console.WriteLine($"" + enemy.name + " attackerar och gör " + damageDealt + " skada");
                         playerTurnOver = false;
                         enemy.currantEnergy--;
@@ -177,7 +183,7 @@ class Program
                     //om fienden har noll eller mindre currantHealth dör den
                     if (enemy.currantHealth <= 0)
                     {
-                        experiance = experiance + enemy.maxHealth - enemy.currantHealth;
+                        player.experiance = player.experiance + enemy.maxHealth - enemy.currantHealth;
                         Console.WriteLine($"" + enemy.name + " är dräpt");
                         Console.WriteLine($"x: " + x + " y: " + y);
                         Console.WriteLine($"w = up, a = left, s = down, d = right");
