@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.ComponentModel;
 class Program
 {
     static void Main(string[] args)
@@ -38,26 +38,25 @@ class Program
                 Console.ReadLine();
                 break;
             }
-            textInput = Console.ReadLine();
-            if (textInput == "w")
+            // movment switch
+            switch (Console.ReadLine())
             {
-                y++;
-                Console.WriteLine($"x: " + x + " y: " + y);
-            }
-            else if (textInput == "a")
-            {
-                x--;
-                Console.WriteLine($"x: " + x + " y: " + y);
-            }
-            else if (textInput == "s")
-            {
-                y--;
-                Console.WriteLine($"x: " + x + " y: " + y);
-            }
-            else if (textInput == "d")
-            {
-                x++;
-                Console.WriteLine($"x: " + x + " y: " + y);
+                case "w":
+                    y++;
+                    Console.WriteLine($"x: " + x + " y: " + y);
+                    break;
+                case "a":
+                    x--;
+                    Console.WriteLine($"x: " + x + " y: " + y);
+                    break;
+                case "s":
+                    y--;
+                    Console.WriteLine($"x: " + x + " y: " + y);
+                    break;
+                case "d":
+                    x++;
+                    Console.WriteLine($"x: " + x + " y: " + y);
+                    break;
             }
             if (rnd.Next(0, 6) == 1)
             {
@@ -81,7 +80,6 @@ class Program
                 enemy.attributesToMax();
                 player.attributesToMax();
                 Console.WriteLine($"Strid med " + enemyName + " level: " + enemyLevel);
-
                 //Combat loop
                 while (true)
                 {
