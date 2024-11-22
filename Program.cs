@@ -5,8 +5,8 @@ class Program
     static void Main(string[] args)
     {
         //misc (isntansiering av spelaren och andra orelaterade saker)
-        //int experiance = 0;
-        //int level = 1;
+        int endGoalX;
+        int endGoalY;
         Console.WriteLine("Choose your name");
         string playerName = Console.ReadLine();
         var player = new animate(playerName, 10, 10, 5, 5, 0, 1);
@@ -14,8 +14,11 @@ class Program
         string textInput;
         int x = 0;
         int y = 0;
+        endGoalX = rnd.Next(-20, 21);
+        endGoalY = rnd.Next(-20, 21);
         Console.WriteLine($"x: " + x + " y: " + y);
         Console.WriteLine($"w = up, a = left, s = down, d = right");
+        Console.WriteLine($"gå till x: " + endGoalX + " y: " + endGoalY);
 
         //används i strid
         string enemyName = "";
@@ -29,13 +32,14 @@ class Program
         bool playerTurnOver = false;
         while (true)
         {
+            //kollar om du har level * experiance så du kan levla up
             if (player.experiance >= (player.level * 10))
             {
                 player.levelUp();
             }
+            //om du har mindre health än noll stänger denna spelet
             if (player.currantHealth < 1)
             {
-                Console.ReadLine();
                 break;
             }
             // movment switch
@@ -58,6 +62,13 @@ class Program
                     Console.WriteLine($"x: " + x + " y: " + y);
                     break;
             }
+            //kollar om du vann
+            if (x == endGoalX && y == endGoalY)
+            {
+                Console.WriteLine("Victory");
+                break;
+            }
+            //randomizar attacker av fiender
             if (rnd.Next(0, 6) == 1)
             {
                 switch (rnd.Next(1, 3))
@@ -184,6 +195,7 @@ class Program
                         Console.WriteLine($"" + enemy.name + " är dräpt");
                         Console.WriteLine($"x: " + x + " y: " + y);
                         Console.WriteLine($"w = up, a = left, s = down, d = right");
+                        Console.WriteLine($"gå till x: " + endGoalX + " y: " + endGoalY);
                         break;
                     }
                     //om spelaren har noll eller mindre currantHealth dör den
@@ -195,5 +207,7 @@ class Program
                 }
             }
         }
+        // ser till så spelaren ser slutmedelanden
+        Console.ReadLine();
     }
 }
