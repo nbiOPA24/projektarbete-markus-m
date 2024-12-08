@@ -8,7 +8,11 @@ public class animate
 	public int currantEnergy;
 	public int experiance;
 	public int level;
-	public animate(string name, int maxHealth, int currantHealth, int maxEnergy, int currantEnergy, int experiance, int level)
+	public int attack;
+	public int block;
+	public int x;
+	public int y;
+	public animate(string name, int maxHealth, int currantHealth, int maxEnergy, int currantEnergy, int experiance, int level, int attack, int block, int x, int y)
 	{
 		this.name = name;
 		this.maxHealth = maxHealth;
@@ -17,6 +21,10 @@ public class animate
 		this.currantEnergy = currantEnergy;
 		this.experiance = experiance; 
 		this.level = level;
+		this.attack = attack;
+		this.block = block;
+		this.x = x;
+		this.y = y;
 	}
 	// updaterar så maxHealth och maxEnergy har korrekt värden för sin level
 	public void updateMaxAttributes()
