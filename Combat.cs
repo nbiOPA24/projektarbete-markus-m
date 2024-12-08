@@ -86,26 +86,24 @@ public class combat
             {
                 if (enemy.currantEnergy > 0)
                 {
-                    //randomizar ett värde för att bestämma vad fienden ska göra
-                    int enemyChoice = rnd.Next(1, 3);
-                    if (enemyChoice == 1 && enemy.currantEnergy > 0)
+                    switch(rnd.Next(1, 3))
                     {
-                        enemy.block = 0;
-                        //randomizar ett värde och subtraherar spelarens health med det
-                        enemy.attack = rnd.Next(1, 5);
-                        player.currantHealth = player.currantHealth - (enemy.attack + enemy.level - player.block);
-                        Console.WriteLine($"" + enemy.name + " attackerar och gör " + (enemy.attack + enemy.level) + " skada");
-                        playerTurnOver = false;
-                        enemy.currantEnergy--;
-                    }
-                    //randomizar ett värde och sparar det till nästa gång spelaren attackerar och subtraherar skadan med värdet damageBlockedEnemy
-                    else if (enemyChoice == 2 && enemy.currantEnergy > 0)
-                    {
-                        enemy.block = 0;
-                        enemy.block = rnd.Next(1, 4);
-                        Console.WriteLine($"" + enemy.name + " blockerar för " + enemy.block + " skada");
-                        enemy.currantEnergy--;
-                        playerTurnOver = false;
+                        case 1:
+                            enemy.block = 0;
+                            //randomizar ett värde och subtraherar spelarens health med det
+                            enemy.attack = rnd.Next(1, 5);
+                            player.currantHealth = player.currantHealth - (enemy.attack + enemy.level - player.block);
+                            Console.WriteLine($"" + enemy.name + " attackerar och gör " + (enemy.attack + enemy.level) + " skada");
+                            playerTurnOver = false;
+                            enemy.currantEnergy--;
+                            break;
+                        case 2:
+                            enemy.block = 0;
+                            enemy.block = rnd.Next(1, 4);
+                            Console.WriteLine($"" + enemy.name + " blockerar för " + enemy.block + " skada");
+                            enemy.currantEnergy--;
+                            playerTurnOver = false;
+                            break;
                     }
                 }
                 //randomizar ett värde och ger det till fienden som currantEnergy
