@@ -2,37 +2,17 @@ using System;
 
 public class combat
 {
+    public static animate enemy;
     public static void combatStart()
     {
         var player = Program.player;
         Random rnd = new Random();
         string textInput;
-        string enemyName = "";
-        int enemyLevel = 0;
-        int enemyMaxHealth = 0;
-        int enemyCurrantHealth = 0;
         int restEnergyGained = 0;
         bool playerTurnOver = false;
-        switch (rnd.Next(1, 3))
-        {
-            case 1:
-                enemyName = "skeleton";
-                enemyMaxHealth = 10;
-                enemyCurrantHealth = 10;
-                break;
-            case 2:
-                enemyName = "imp";
-                enemyMaxHealth = 10;
-                enemyCurrantHealth = 10;
-                break;
-        }
-        enemyLevel = rnd.Next(1, 3);
         // om du vill ändra max energi eller max health scaling får du göra det i animate updateMaxAttributes
-        var enemy = new animate(enemyName, enemyMaxHealth, enemyCurrantHealth, 5, 5, 0, enemyLevel, 0, 0, 0, 0);
-        enemy.updateMaxAttributes();
-        enemy.attributesToMax();
         player.attributesToMax();
-        Console.WriteLine($"Strid med " + enemyName + " level: " + enemyLevel);
+        Console.WriteLine($"Strid med " + enemy.name + " level: " + enemy.level);
         //Combat loop
         while (true)
         {
@@ -43,6 +23,7 @@ public class combat
             Console.WriteLine($"" + enemy.name + " hp: " + enemy.currantHealth + " av max " + enemy.maxHealth);
             Console.WriteLine($"" + enemy.name + " energi: " + enemy.currantEnergy + " av max " + enemy.maxEnergy);
             textInput = Console.ReadLine();
+            Console.Clear();
             Console.WriteLine($"///////////////////////////////////");
 
             // spelarens del av combat delen av scriptet
@@ -136,10 +117,16 @@ public class combat
             //om fienden har noll eller mindre currantHealth dör den
             if (enemy.currantHealth <= 0)
             {
-                player.experiance = player.experiance + enemy.maxHealth - enemy.currantHealth;
+                player.experiance = player.experiance + 5 - enemy.currantHealth;
+                if (player.experiance >= (player.level * 10))
+                {
+                    player.levelUp();
+                    Console.WriteLine("Level up!");
+                }
                 Console.WriteLine($"" + enemy.name + " är dräpt");
-                Console.WriteLine($"" + player.name + " har nu " + player.experiance + " xp");
+                Console.WriteLine($"" + player.name + " har nu " + player.experiance + " xp och är level " + player.level);
                 Program.player = player;
+                Console.ReadLine();
                 break;
             }
             //om spelaren har noll eller mindre currantHealth dör den
