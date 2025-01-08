@@ -139,17 +139,15 @@ public class combat
                 player.experiance = player.experiance + enemy.maxHealth - enemy.currantHealth;
                 Console.WriteLine($"" + enemy.name + " är dräpt");
                 Console.WriteLine($"" + player.name + " har nu " + player.experiance + " xp");
-                Console.WriteLine($"x: " + player.x + " y: " + player.y);
-                Console.WriteLine($"w = up, a = left, s = down, d = right");
                 Program.player = player;
-                //Console.WriteLine($"gå till x: " + endGoalX + " y: " + endGoalY);
                 break;
             }
             //om spelaren har noll eller mindre currantHealth dör den
             if (player.currantHealth <= 0)
             {
                 Console.WriteLine($"" + player.name + " är död");
-                break;
+                Console.ReadLine();
+                Environment.Exit(0);
             }
         }
     }
